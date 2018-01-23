@@ -13,7 +13,9 @@ class ConfigHandler:
 
     def init_config(self):
         self.confparser["general"] = {
-            "copy_link_to_clipboard": True
+            "copy_link_to_clipboard": True,
+            "save_file_locally": True,
+            "show_notification_on_upload": True
         }
         self.confparser["SFTP"] = {
             "domain": "domain_to_upload_to",

@@ -10,11 +10,10 @@ class Imgur:
 
     def upload(self, file):
         # Imgur actually accepts 10.x mb file sizes, it only denies them when they hit 11mb.
-        if not os.path.getsize(file) >= 10000000:
-            # header = {'Authorization': 'Client-ID ab365300814c988'}
+        if not os.path.getsize(file) >= 11000000:
             binary_file = open(file, "rb").read()
             data = {'image': binary_file}
             header = {"Authorization": "Client-ID " + self.conf.get_key_value("imgur", "client-id")}
 
             req = self.api_helper.post("image", data, header)
-            return req.text["link"]
+            return req.text

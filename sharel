@@ -1,0 +1,3 @@
+#!/bin/bash
+
+xfce4-screenshooter -r -o "/home/mitch/Projects/Python/ShareL/main.py --sftp"

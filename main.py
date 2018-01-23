@@ -33,3 +33,5 @@ elif args.imgur:
     print(imgr.upload(args.imgur[0]))
 elif args.conf:
     print("Set what config to use.")
+else:
+    print("Argument provided does not exist.")
