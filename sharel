@@ -1,3 +1,5 @@
 #!/bin/bash
 
-xfce4-screenshooter -r -o "/home/mitch/Projects/Python/ShareL/main.py --sftp"
+dt="/tmp/Screenshot_$(date '+%Y-%m-%d_%H-%M-%S').png"
+scrot -s -q 100 $dt
+/usr/bin/python /home/mitch/Projects/Python/ShareL/main.py --sftp $dt
