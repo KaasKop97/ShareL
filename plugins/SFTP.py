@@ -16,6 +16,9 @@ class Sftp:
         self.password = self.sftp_section["password"]
         self.remote_dir = self.sftp_section["remote_dir"]
         self.use_pub_key = bool(self.sftp_section["use_pub_key_authentication"])
+        self.http_path = self.sftp_section["http_path"]
+        self.notification_content = self.sftp_section["notification_clipboard_content"]
+
 
         self.ssh_conn = paramiko.SSHClient()
 
@@ -27,19 +30,25 @@ class Sftp:
                 self.ssh_conn.connect(self.domain, self.port)
                 return [True, ""]
             except socket.gaierror:
-                print("ERROR: " + self.domain + " is not resolvable.")
-                return [False, ""]
+                return [False, "ERROR: " + self.domain + " is not resolvable."]
         else:
             try:
                 self.ssh_conn.connect(self.domain, self.port, self.username, self.password)
                 return [True, ""]
             except socket.gaierror:
-                print("ERROR: " + self.domain + " is not resolvable.")
-                return [False, ""]
+                return [False, "ERROR: " + self.domain + " is not resolvable."]
 
     def upload(self, file):
         filename = file.split("/")[-1]
         remote_dir = self.remote_dir + "/" + filename
         sftp_session = self.ssh_conn.open_sftp()
         sftp_session.put(file, remote_dir)
-        return [True, remote_dir]
+
+        if self.notification_content == "http_path":
+            location = self.http_path + filename
+        elif self.notification_content == "remote_dir":
+            location = remote_dir
+        else:
+            location = ""
+
+        return [True, location]

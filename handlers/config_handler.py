@@ -8,7 +8,7 @@ class ConfigHandler:
     def __init__(self):
         self.confparser = configparser.ConfigParser()
         self.misc = misc_helper.MiscHelper()
-        self.config_location = os.path.join(os.environ["HOME"], ".config/ShareL/config.ini")
+        self.config_location = os.path.expanduser("~/.config/ShareL/config.ini")
 
         if not os.path.isdir(self.config_location[0:-10]):
             os.mkdir(self.config_location[0:-10])
@@ -25,7 +25,7 @@ class ConfigHandler:
 
         self.confparser["SFTP"] = {
             "domain": "example.com",
-            "username": "root",
+            "username": "root(plsdont)",
             "password": "SuperSecretPassword",
             "port": "22",
             "use_pub_key_authentication": True,
@@ -46,22 +46,28 @@ class ConfigHandler:
     def does_section_exist(self, section):
         if self.confparser.has_section(section):
             return True
+        else:
+            return False
 
     def does_key_exist_in_section(self, section, key):
         if self.does_section_exist(section) and key in self.confparser[section].keys():
             return self.confparser[section][key]
+        else:
+            return False
 
     def get_section(self, section):
         if self.does_section_exist(section):
             return self.confparser[section]
+        else:
+            return False
 
     def get_key_value(self, section, key):
         if self.does_section_exist(section) and key in self.confparser[section].keys():
             return self.confparser[section][key]
-        elif self.does_section_exist(section):
-            print("Section does not exist.")
-        elif self.does_key_exist_in_section(section, key):
-            print("Key does not exist in section " + section)
+        elif not self.does_section_exist(section):
+            print("Section " + section + " does not exist.")
+        elif not self.does_key_exist_in_section(section, key):
+            print("Key " + key + " does not exist in section " + section)
 
     def set_key_value(self, section, key, value):
         # you'll be able to set settings in the config file in the future.
@@ -71,5 +77,5 @@ class ConfigHandler:
         if bool(self.get_key_value("general", "copy_link_to_clipboard")):
             self.misc.copy_to_clipboard(data)
 
-        if bool(self.get_key_value("general", "send_notification_on_upload")):
+        if bool(self.get_key_value("general", "show_notification_on_upload")):
             self.misc.send_notification(data)

@@ -1,6 +1,6 @@
 import os
 import pyperclip
-import subprocess
+import notify2
 
 
 class MiscHelper:
@@ -18,4 +18,7 @@ class MiscHelper:
 
     @staticmethod
     def send_notification(text):
-        subprocess.run(["notify-send", text])
+        notify2.init("ShareL")
+        notify = notify2.Notification("ShareL - Upload succesfull!", text)
+        notify.show()
+

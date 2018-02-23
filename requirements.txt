@@ -2,3 +2,5 @@ configparser
 pyperclip
 requests
 paramiko
+notify2
+dbus-python

@@ -19,4 +19,4 @@ class Imgur:
             req = self.api_helper.post("image", data, header)
             return [True, req]
         else:
-            return "File exceeds imgur's maximum upload size of <10mb."
+            return [False, "File exceeds imgur's maximum upload size of <10mb."]
