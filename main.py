@@ -25,17 +25,23 @@ args = parser.parse_args()
 if args.sftp or args.imgur:
     service = None
     file = None
+    returns = None
 
     if args.sftp:
         service = "sftp"
+        returns = "plain"
         file = args.sftp[0]
     elif args.imgur:
         service = "imgur"
+        returns = "json"
         file = args.imgur[0]
 
     if misc.is_file(file):
         plugin_handler = plugin_handler.PluginHandler(service)
-        plugin_handler.handle_upload(file)
+        if returns == "json":
+            plugin_handler.handle_upload_json(file)
+        else:
+            plugin_handler.handle_upload(file)
 
 if args.ec:
     print("Edit configuration")

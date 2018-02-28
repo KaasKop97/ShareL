@@ -1,6 +1,7 @@
 from helpers import web_api_helper
 from handlers import config_handler
 import os
+import json
 
 
 class Imgur:
@@ -17,6 +18,6 @@ class Imgur:
             header = {"Authorization": "Client-ID " + self.imgur_section["client-id"]}
 
             req = self.api_helper.post("image", data, header)
-            return [True, req]
+            return [bool(json.loads(req.content)["success"]), req]
         else:
             return [False, "File exceeds imgur's maximum upload size of <10mb."]

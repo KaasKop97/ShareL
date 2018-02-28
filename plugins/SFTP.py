@@ -19,7 +19,6 @@ class Sftp:
         self.http_path = self.sftp_section["http_path"]
         self.notification_content = self.sftp_section["notification_clipboard_content"]
 
-
         self.ssh_conn = paramiko.SSHClient()
 
     def connect(self):
@@ -49,6 +48,6 @@ class Sftp:
         elif self.notification_content == "remote_dir":
             location = remote_dir
         else:
-            location = ""
+            location = "ERROR"
 
         return [True, location]

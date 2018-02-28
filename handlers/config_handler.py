@@ -35,9 +35,13 @@ class ConfigHandler:
         }
 
         self.confparser["imgur"] = {
-            "client-id": "your client-id. Get it from the imgur site.",
+            "client-id": "b0b233b63c847b4",
             "Username": "optional",
             "Password": "optional"
+        }
+
+        self.confparser["gfycat"] = {
+            "client-id": "2_7_DzuB",
         }
 
         with open(self.config_location, "w") as f:

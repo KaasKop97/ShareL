@@ -22,3 +22,5 @@ class MiscHelper:
         notify = notify2.Notification("ShareL - Upload succesfull!", text)
         notify.show()
 
+    def check_file_type(self, file, desired_type):
+        pass
