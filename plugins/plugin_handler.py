@@ -18,7 +18,6 @@ class PluginHandler:
     def handle_upload_json(self, file):
         upload = self.plugin.upload(file)
         if upload[0]:
-            print("Welp its there")
             print(json.loads(upload[1].content)["data"]["link"])
             self.conf_handler.apply_general_config_options(json.loads(upload[1].content)["data"]["link"])
         else:

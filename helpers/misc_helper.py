@@ -24,3 +24,7 @@ class MiscHelper:
 
     def check_file_type(self, file, desired_type):
         pass
+
+    @staticmethod
+    def send_stdout(text):
+        print(text)

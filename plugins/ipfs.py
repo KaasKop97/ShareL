@@ -10,9 +10,10 @@ class Ipfs:
         self.wapi = web_api_helper.WebApiHelper("http://localhost:5001/api/v0/")
 
     def upload(self, file):
-        data = {
-            'path': os.path.abspath(file),
-            'Content-Encoding': "multipart/form-data"
-        }
-        req = self.wapi.post("add", data)
+        # data = {
+        #     'path': os.path.abspath(file),
+        #     'Content-Encoding': "multipart/form-data"
+        # }
+        # req = self.wapi.post("add", data)
+
         return [True, req]

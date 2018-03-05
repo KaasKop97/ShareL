@@ -20,7 +20,8 @@ class ConfigHandler:
     def init_config(self):
         self.confparser["general"] = {
             "copy_link_to_clipboard": True,
-            "show_notification_on_upload": True
+            "show_notification_on_upload": True,
+            "output_location_to_stdout": True
         }
 
         self.confparser["SFTP"] = {
@@ -83,3 +84,6 @@ class ConfigHandler:
 
         if bool(self.get_key_value("general", "show_notification_on_upload")):
             self.misc.send_notification(data)
+
+        if bool(self.get_key_value("general", "output_location_to_stdout")):
+            self.misc.send_stdout(data)
