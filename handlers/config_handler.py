@@ -25,13 +25,13 @@ class ConfigHandler:
         }
 
         self.confparser["SFTP"] = {
-            "domain": "example.com",
+            "domain": "example.com, example2.com",
             "username": "root(plsdont)",
             "password": "SuperSecretPassword",
             "port": "22",
             "use_pub_key_authentication": True,
-            "remote_dir": "/var/www/example.com/files",
-            "http_path": "http://example.com/files/",
+            "remote_dir": "/var/www/",
+            "http_path": "http://",
             "notification_clipboard_content": "http_path"
         }
 

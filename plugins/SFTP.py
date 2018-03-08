@@ -2,6 +2,7 @@ import paramiko
 import socket
 from handlers import config_handler
 from helpers import misc_helper
+from random import randint
 
 
 class Sftp:
@@ -10,13 +11,15 @@ class Sftp:
         self.misc = misc_helper.MiscHelper()
         self.sftp_section = self.conf.get_section("SFTP")
 
-        self.domain = self.sftp_section["domain"]
+        self.domain = list(self.sftp_section["domain"].split(","))
+        print(len(self.domain))
+        self.domain = self.domain[randint(0, len(self.domain) - 1)]
         self.port = int(self.sftp_section["port"])
         self.username = self.sftp_section["username"]
         self.password = self.sftp_section["password"]
-        self.remote_dir = self.sftp_section["remote_dir"]
+        self.remote_dir = self.sftp_section["remote_dir"] + self.domain
         self.use_pub_key = bool(self.sftp_section["use_pub_key_authentication"])
-        self.http_path = self.sftp_section["http_path"]
+        self.http_path = self.sftp_section["http_path"] + self.domain + "/"
         self.notification_content = self.sftp_section["notification_clipboard_content"]
 
         self.ssh_conn = paramiko.SSHClient()
