@@ -13,6 +13,10 @@ class ConfigHandler:
         if not os.path.isdir(self.config_location[0:-10]):
             os.mkdir(self.config_location[0:-10])
         if not os.path.isfile(self.config_location):
+            print(
+                "There was no configuration found, I made one in " + os.path.expanduser("~/.config/ShareL/config.ini") +
+                " make sure to edit the configuration if you want to use SFTP or any other service that requires" +
+                " authentication. Imgur and gfycat are already conifgured and use an anonymous client-id")
             self.init_config()
 
         self.read_file = self.confparser.read(self.config_location)

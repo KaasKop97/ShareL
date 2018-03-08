@@ -18,11 +18,12 @@ parser = argparse.ArgumentParser(prog="ShareL", description="Upload files to a r
 parser.add_argument("--edit-conf", help="Edit the configuration of the program (uses the $EDITOR variable)", dest="ec")
 parser.add_argument("--sftp", help="Upload a file to an SFTP host", dest="sftp", nargs=1)
 parser.add_argument("--imgur", help="Upload a file to imgur", dest="imgur", nargs=1)
+parser.add_argument("--gfycat", help="Upload a file to gfycat", dest="gfycat", nargs=1)
 parser.add_argument("--conf", help="Set what configuration to use.", dest="conf")
 
 args = parser.parse_args()
 
-if args.sftp or args.imgur:
+if args.sftp or args.imgur or args.gfycat:
     service = None
     file = None
     returns = None
@@ -31,10 +32,18 @@ if args.sftp or args.imgur:
         service = "sftp"
         returns = "plain"
         file = args.sftp[0]
+        if conf.get_section("SFTP")["domain"] == "example.com":
+            print(
+                "SFTP is not configured in your config.ini (" + os.path.expanduser("~/.config/ShareL/config.ini") + ")")
+            exit(1)
     elif args.imgur:
         service = "imgur"
         returns = "json"
         file = args.imgur[0]
+    elif args.gfycat:
+        service = "gfycat"
+        returns = "json"
+        file = args.gfycat[0]
 
     if misc.is_file(file):
         plugin_handler = plugin_handler.PluginHandler(service)
@@ -45,6 +54,6 @@ if args.sftp or args.imgur:
 
 if args.ec:
     print("Edit configuration")
-    run([os.environ["EDITOR"], os.environ["HOME"] + "/.config/ShareL/config.ini"])
+    run([os.environ["EDITOR"], os.path.expanduser("~/.config/ShareL/config.ini")])
 elif args.conf:
     print("Set what config to use.")
