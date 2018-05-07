@@ -49,7 +49,7 @@ if args.sftp or args.imgur or args.save or args.ipfs:
         service = "ipfs"
         returns = "plain"
         file = args.ipfs[0]
-    if misc.is_file(file):
+    if file and misc.is_file(file):
         if conf.get_key_value("general", "show_notification_on_upload_initiation"):
             misc.send_notification("Started upload to " + service)
         plugin_handler = plugin_handler.PluginHandler(service)
