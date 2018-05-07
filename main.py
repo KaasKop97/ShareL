@@ -16,14 +16,15 @@ if not misc.is_file(os.path.expanduser("~/.config/ShareL/config.ini")):
 
 parser = argparse.ArgumentParser(prog="ShareL", description="Upload files to a remote host")
 parser.add_argument("--edit-conf", help="Edit the configuration of the program (uses the $EDITOR variable)", dest="ec")
-parser.add_argument("--sftp", help="Upload a file to an SFTP host", dest="sftp", nargs=1)
-parser.add_argument("--imgur", help="Upload a file to imgur", dest="imgur", nargs=1)
-parser.add_argument("--gfycat", help="Upload a file to gfycat", dest="gfycat", nargs=1)
+parser.add_argument("--sftp", help="Uploads a file to an SFTP host", dest="sftp", nargs=1)
+parser.add_argument("--imgur", help="Uploads a file to imgur", dest="imgur", nargs=1)
+parser.add_argument("--ipfs", help="Uploads a file to IPFS", dest="ipfs", nargs=1)
+parser.add_argument("--save", help="Save the file locally and nothing else.", dest="save", nargs=1)
 parser.add_argument("--conf", help="Set what configuration to use.", dest="conf")
 
 args = parser.parse_args()
 
-if args.sftp or args.imgur or args.gfycat:
+if args.sftp or args.imgur or args.save or args.ipfs:
     service = None
     file = None
     returns = None
@@ -40,12 +41,17 @@ if args.sftp or args.imgur or args.gfycat:
         service = "imgur"
         returns = "json"
         file = args.imgur[0]
-    elif args.gfycat:
-        service = "gfycat"
-        returns = "json"
-        file = args.gfycat[0]
-
+    elif args.save:
+        service = "save"
+        returns = "plain"
+        file = args.save[0]
+    elif args.ipfs:
+        service = "ipfs"
+        returns = "plain"
+        file = args.ipfs[0]
     if misc.is_file(file):
+        if conf.get_key_value("general", "show_notification_on_upload_initiation"):
+            misc.send_notification("Started upload to " + service)
         plugin_handler = plugin_handler.PluginHandler(service)
         if returns == "json":
             plugin_handler.handle_upload_json(file)

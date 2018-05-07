@@ -19,7 +19,7 @@ class MiscHelper:
     @staticmethod
     def send_notification(text):
         notify2.init("ShareL")
-        notify = notify2.Notification("ShareL - Upload succesfull!", text)
+        notify = notify2.Notification("ShareL", text)
         notify.show()
 
     def check_file_type(self, file, desired_type):
@@ -28,3 +28,7 @@ class MiscHelper:
     @staticmethod
     def send_stdout(text):
         print(text)
+
+    @staticmethod
+    def get_filename(file_location):
+        return file_location.split("/")[-1]

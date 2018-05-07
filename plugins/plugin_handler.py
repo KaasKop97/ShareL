@@ -1,4 +1,4 @@
-import plugins.SFTP, plugins.imgur
+import plugins.SFTP, plugins.imgur, plugins.save, plugins.ipfs
 from handlers import config_handler
 import json
 
@@ -6,7 +6,7 @@ import json
 class PluginHandler:
     def __init__(self, service):
         self.conf_handler = config_handler.ConfigHandler()
-        self.plugin_list = ["sftp", "imgur", "gfycat"]
+        self.plugin_list = ["sftp", "imgur", "save", "ipfs"]
 
         if service.lower() in self.plugin_list:
             if service.lower() == self.plugin_list[0]:
@@ -15,7 +15,9 @@ class PluginHandler:
             elif service.lower() == self.plugin_list[1]:
                 self.plugin = plugins.imgur.Imgur()
             elif service.lower() == self.plugin_list[2]:
-                self.plugin = plugins.gfycat.GfyCat()
+                self.plugin = plugins.save.Save()
+            elif service.lower() == self.plugin_list[3]:
+                self.plugin = plugins.ipfs.Ipfs()
 
     def handle_upload_json(self, file):
         upload = self.plugin.upload(file)
