@@ -36,7 +36,9 @@ if args.sftp or args.imgur:
         returns = "json"
         file = args.imgur[0]
 
-    if misc.is_file(file):
+    if file and misc.is_file(file):
+        if conf.get_key_value("general", "show_notification_on_upload_initiation"):
+            misc.send_notification("Started upload to " + service)
         plugin_handler = plugin_handler.PluginHandler(service)
         if returns == "json":
             plugin_handler.handle_upload_json(file)
