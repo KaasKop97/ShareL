@@ -9,8 +9,8 @@ class MiscHelper:
         return os.path.isfile(file_location)
 
     @staticmethod
-    def is_dir(dir):
-        return os.path.isdir(dir)
+    def is_dir(directory):
+        return os.path.isdir(directory)
 
     @staticmethod
     def copy_to_clipboard(data):
@@ -18,12 +18,10 @@ class MiscHelper:
 
     @staticmethod
     def send_notification(text):
-        notify2.init("ShareL")
-        notify = notify2.Notification("ShareL", text)
-        notify.show()
-
-    def check_file_type(self, file, desired_type):
-        pass
+        if text:
+            notify2.init("ShareL")
+            notify = notify2.Notification("ShareL", text)
+            notify.show()
 
     @staticmethod
     def send_stdout(text):

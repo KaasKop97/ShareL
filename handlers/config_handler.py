@@ -18,8 +18,6 @@ class ConfigHandler:
                 " make sure to edit the configuration if you want to use SFTP or any other service that requires" +
                 " authentication. Imgur and gfycat are already conifgured and use an anonymous client-id")
             self.init_config()
-        elif os.path.isfile(self.config_location):
-            self.config_file_exists()
 
         self.read_file = self.confparser.read(self.config_location)
 
@@ -28,11 +26,12 @@ class ConfigHandler:
             "copy_link_to_clipboard": True,
             "show_notification_on_upload_initiation": True,
             "show_notification_on_upload_completed": True,
-            "output_location_to_stdout": True
+            "output_location_to_stdout": True,
+            "always_save_image_to_local_disk": True
         }
 
         self.confparser["SFTP"] = {
-            "domain": "example.com",
+            "domain": "sftp-is-not-configured",
             "username": "root(plsdont)",
             "password": "SuperSecretPassword",
             "port": "22",
@@ -53,7 +52,8 @@ class ConfigHandler:
         }
 
         self.confparser["save"] = {
-            "save_location": "/home/xxx/memes!",
+            "save_location": "/home/xxx/Pictures/ShareL_Uploads",
+            "per_month_basis": "True"
         }
 
         with open(self.config_location, "w") as f:
@@ -99,6 +99,3 @@ class ConfigHandler:
 
         if bool(self.get_key_value("general", "output_location_to_stdout")):
             self.misc.send_stdout(data)
-
-    def config_file_exists(self):
-        pass

@@ -33,8 +33,8 @@ if args.sftp or args.imgur or args.save or args.ipfs:
         service = "sftp"
         returns = "plain"
         file = args.sftp[0]
-        if conf.get_section("SFTP")["domain"] == "example.com":
-            print(
+        if conf.get_section("SFTP")["domain"] == "sftp-is-not-configured":
+            misc.send_notification(
                 "SFTP is not configured in your config.ini (" + os.path.expanduser("~/.config/ShareL/config.ini") + ")")
             exit(1)
     elif args.imgur:
@@ -50,13 +50,20 @@ if args.sftp or args.imgur or args.save or args.ipfs:
         returns = "plain"
         file = args.ipfs[0]
     if file and misc.is_file(file):
+        pluginHandler = plugin_handler.PluginHandler(service)
         if conf.get_key_value("general", "show_notification_on_upload_initiation"):
             misc.send_notification("Started upload to " + service)
-        plugin_handler = plugin_handler.PluginHandler(service)
+
         if returns == "json":
-            plugin_handler.handle_upload_json(file)
+            pluginHandler.handle_upload_json(file)
         else:
-            plugin_handler.handle_upload(file)
+            pluginHandler.handle_upload(file)
+
+        if bool(conf.get_key_value("general", "always_save_image_to_local_disk")):
+            plugin_handler_save = plugin_handler.PluginHandler("save")
+            plugin_handler_save.handle_upload(file)
+    else:
+        print("ERROR not a file.")
 
 if args.ec:
     print("Edit configuration")

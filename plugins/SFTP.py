@@ -33,6 +33,7 @@ class Sftp:
         else:
             try:
                 self.ssh_conn.connect(self.domain, self.port, self.username, self.password)
+
                 return [True, ""]
             except socket.gaierror:
                 return [False, "ERROR: " + self.domain + " is not resolvable."]
