@@ -12,7 +12,6 @@ class Sftp:
         self.sftp_section = self.conf.get_section("SFTP")
 
         self.domain = list(self.sftp_section["domain"].split(","))
-        print(len(self.domain))
         self.domain = self.domain[randint(0, len(self.domain) - 1)]
         self.port = int(self.sftp_section["port"])
         self.username = self.sftp_section["username"]
