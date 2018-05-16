@@ -14,7 +14,8 @@ class MiscHelper:
 
     @staticmethod
     def copy_to_clipboard(data):
-        pyperclip.copy(data)
+        if data:
+            pyperclip.copy(data)
 
     @staticmethod
     def send_notification(text):
